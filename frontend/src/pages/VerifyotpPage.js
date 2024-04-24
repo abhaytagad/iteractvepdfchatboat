@@ -15,7 +15,7 @@ function VerifyotpPage(){
 
     async function clickHandler(){
         
-        await axios.get('http://localhost:4000/api/signin',{
+        await axios.get('https://iteractvepdfchatboat.onrender.com/api/signin',{
             params:{
                 otp:otp,
                 email:email,

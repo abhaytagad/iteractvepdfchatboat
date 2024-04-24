@@ -15,7 +15,7 @@ function DashboardCom(){
     
     useEffect(()=>{
         async function files(){
-        await axios.post('http://localhost:4000/api/allfiles',{
+        await axios.post('https://iteractvepdfchatboat.onrender.com/api/allfiles',{
             email:email
         })
         .then((res)=>{

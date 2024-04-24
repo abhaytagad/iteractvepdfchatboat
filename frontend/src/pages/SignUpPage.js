@@ -33,7 +33,7 @@ function SignUpPage(){
 
     function clickHandler(){
 
-        axios.post('http://localhost:4000/api/generatotp',{
+        axios.post('https://iteractvepdfchatboat.onrender.com/api/generatotp',{
             email:email,
         })
         .then((res)=> {

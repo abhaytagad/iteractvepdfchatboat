@@ -11,7 +11,7 @@ function UploadingCom(props){
 
     function trashHandler(){
         axios
-        .post("http://localhost:4000/api/deletefile", {
+        .post("https://iteractvepdfchatboat.onrender.com/deletefile", {
             fileid:props.fileid
         })
         .then((response) => {

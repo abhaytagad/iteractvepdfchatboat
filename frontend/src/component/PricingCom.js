@@ -18,7 +18,7 @@ function PricingCom(){
             return;
         }
        
-        var response = await fetch('http://localhost:4000/api/payment',{
+        var response = await fetch('https://iteractvepdfchatboat.onrender.com/api/payment',{
             method:"POST",
             headers: headers,
             body: JSON.stringify(params)
