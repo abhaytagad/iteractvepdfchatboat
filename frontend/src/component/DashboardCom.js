@@ -12,14 +12,14 @@ function DashboardCom(){
     const{email,array,fileChangeHandler,fileidChangeHandler,arrayChangeHandler} = useContext(APIcontext)
     
     const naviGate = useNavigate();
-    let isFiles = false
+    
     useEffect(()=>{
         async function files(){
         await axios.post('http://localhost:4000/api/allfiles',{
             email:email
         })
         .then((res)=>{
-            isFiles = true;
+           
             console.log("retrived data",)
             arrayChangeHandler(res.data.array)
             console.log(array)
@@ -69,7 +69,7 @@ function DashboardCom(){
             </div>
 
           <div >
-            {!isFiles && array.length !=0 ? 
+            {(array.length !== 0) ? 
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 shadow-2xl shadow-black p-4  ' >
                         {
                             array.map((obj)=>{

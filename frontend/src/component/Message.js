@@ -5,7 +5,6 @@ import { APIcontext } from '../context/SignupContext';
 import { toast } from 'react-toastify';
 import Question from './Question.js';
 import React from 'react';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
 import { useMutation } from 'react-query';
 import axios from 'axios';
 
@@ -90,30 +89,7 @@ function Message(){
       };
 
 
-    async function startListening(){
-        
-        const recognition = new window.webkitSpeechRecognition();
-        var speechResult;
-        recognition.onstart = () => {
-          console.log('Speech recognition started...');
-          playClickSound();
-        };
-        recognition.start();
-        
-        recognition.onresult = (event) => {
-          const last = event.results.length - 1;
-          speechResult = event.results[last][0].transcript;
-          
-          if(speechResult){
-           
-            console.log(speechResult)
-            
-          }
-        };
-
-        queryChangeHandler(speechResult);
-        clickHandler()
-    };
+   
 
     
 
