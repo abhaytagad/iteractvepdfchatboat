@@ -12,7 +12,7 @@ const app = express();
 app.use(express.json())
 
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://interactivepdfchatboat.netlify.app");
+    res.header("Access-Control-Allow-Origin", "https://pdfchatboat.netlify.app");
     // Add other headers as needed
     next();
 });

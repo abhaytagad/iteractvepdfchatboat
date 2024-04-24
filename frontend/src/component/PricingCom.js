@@ -39,7 +39,7 @@ function PricingCom(){
             "order_id":response.id , 
             "handler": function (response){
 
-                axios.post('http://localhost:4000/api/paymentvalidate',{
+                axios.post('https://iteractvepdfchatboat.onrender.com/api/paymentvalidate',{
                     razorpay_payment_id:response.razorpay_payment_id,
                     razorpay_order_id:response.razorpay_order_id,
                     razorpay_signature:response.razorpay_signature,

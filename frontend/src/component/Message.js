@@ -60,7 +60,7 @@ function Message(){
         forceUpdate();
 
        }
-       axios.post('http://localhost:4000/api/createquery',{
+       axios.post('https://iteractvepdfchatboat.onrender.com/api/createquery',{
         email:email,
         fileid:fileid,
         query:query,
@@ -82,16 +82,7 @@ function Message(){
         mutate(data) 
         
     }
-
-    const playClickSound = () => {
-        const audio = new Audio('../sound.wav');
-        audio.play();
-      };
-
-
-   
-
-    
+ 
 
     return(
         <div className='flex flex-col w-screen md:w-[50%] shadow-2xl shadow-black justify-between px-4 gap-4 py-6 relative overflow-hidden'>

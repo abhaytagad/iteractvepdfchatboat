@@ -46,7 +46,7 @@ function DashboardCom(){
        
         toast.success("Uploading file...")
         axios
-        .post("http://localhost:4000/api/uploadfile", formData)
+        .post("https://iteractvepdfchatboat.onrender.com/api/uploadfile", formData)
         .then((response) => {
             toast.success("file uploaded succesfully")
             fileChangeHandler(response.data.response.url)
