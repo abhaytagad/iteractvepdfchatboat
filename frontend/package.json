@@ -1,54 +1,62 @@
 {
-  "name": "gatsby-starter-default",
-  "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "name": "react-tailwind-css-starter-pack",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "private": true,
   "dependencies": {
-    "@emotion/core": "^10.0.21",
-    "@emotion/styled": "^10.0.17",
-    "gatsby": "^2.19.12",
-    "gatsby-image": "^2.2.40",
-    "gatsby-plugin-emotion": "^4.1.22",
-    "gatsby-plugin-manifest": "^2.2.41",
-    "gatsby-plugin-offline": "^3.0.34",
-    "gatsby-plugin-react-helmet": "^3.1.22",
-    "gatsby-plugin-react-svg": "^2.1.2",
-    "gatsby-plugin-sharp": "^2.4.5",
-    "gatsby-plugin-web-font-loader": "^1.0.4",
-    "gatsby-source-filesystem": "^2.1.48",
-    "gatsby-source-instagram": "^0.5.1",
-    "gatsby-source-prismic": "^2.3.0-alpha.3",
-    "gatsby-transformer-json": "^2.2.26",
-    "gatsby-transformer-remark": "^2.6.50",
-    "gatsby-transformer-sharp": "^2.3.14",
-    "html-to-react": "^1.4.2",
-    "prismic-reactjs": "^1.2.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-helmet": "^5.2.1"
-  },
-  "devDependencies": {
-    "prettier": "^1.18.2"
-  },
-  "keywords": [
-    "gatsby"
-  ],
-  "license": "MIT",
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing \""
+    "@apollo/client": "^3.9.11",
+    "@chatscope/use-chat": "^3.1.2",
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "annyang": "^2.6.1",
+    "axios": "^1.6.8",
+    "circular-json": "^0.5.9",
+    "concurrently": "^8.2.2",
+    "razorpay": "^2.9.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.22.1",
+    "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.5",
+    "web-vitals": "^2.1.4"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
   },
+  "author": "Pranay Gupta",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "server": "cd backend && npm run start",
+    "dev": "concurrently -n \"client , server\" -c \"bgBlue , bgYellow\" \"npm start\" \"npm run server\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
   }
 }
