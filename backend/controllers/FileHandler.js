@@ -159,8 +159,8 @@ exports.fileDelete = async (req,res)=>{
         console.log(e)
         res.status(200).json(
             {
-                success:true,
-                message:"deleted succesfully"
+                success:false,
+                message:"delete unsuccesfully"
             }
         )
     }

@@ -7,7 +7,7 @@ import SignupContext from "./context/SignupContext";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
-
+const cors = require('cors');
 
 const queryClient = new QueryClient();
 

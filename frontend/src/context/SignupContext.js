@@ -25,7 +25,6 @@ function SignupContext({children}){
         }
         const fileUrl = JSON.parse(localStorage.getItem('fileurl'));
         if (fileUrl) {
-            
             console.log(fileUrl)
             fileChangeHandler(fileUrl)
         }
