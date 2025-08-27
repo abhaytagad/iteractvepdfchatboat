@@ -1,0 +1,30 @@
+# Backend dependencies
+/backend/node_modules/
+
+# Backend environment files
+/backend/.env
+/backend/.env.local
+/backend/.env.development.local
+/backend/.env.test.local
+/backend/.env.production.local
+
+# Logs
+/backend/npm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
+/backend/pnpm-debug.log*
+/backend/*.log
+
+# Build outputs
+/backend/dist/
+/backend/build/
+/backend/.cache/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+
+# OS-specific
+.DS_Store
+Thumbs.db
