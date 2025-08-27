@@ -74,7 +74,7 @@ exports.signUpCon = async (req, res) => {
       email: email,
       password: bcryptPassword,
     });
-
+    
     return res.status(200).json({
       success: true,
       message: "Sign Up succesfully",

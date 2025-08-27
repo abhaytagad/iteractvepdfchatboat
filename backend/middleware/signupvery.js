@@ -7,8 +7,9 @@ async function signupvery(req, res, next) {
 
     console.log(email,otp)
     const user = await OTP.findOne({ email }).sort({ createdAt: -1 });
-    console.log(user)
+    
     if (!user || user.otp != otp  ) {
+        await OTP.findOneAndDelete({email:email});
         return res.status(400).json({
             success:false,
             message :"OTP does not match"
