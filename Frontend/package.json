@@ -1,0 +1,63 @@
+{
+  "name": "react-tailwind-css-starter-pack",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.9.11",
+    "@chatscope/use-chat": "^3.1.2",
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@huggingface/inference": "^3.3.3",
+    "annyang": "^2.6.1",
+    "axios": "^1.6.8",
+    "circular-json": "^0.5.9",
+    "concurrently": "^8.2.2",
+    "razorpay": "^2.9.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.22.1",
+    "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.5",
+    "web-vitals": "^2.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
+  },
+  "author": "Pranay Gupta",
+  "bugs": {
+    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "server": "cd backend && npm run start",
+    "dev": "concurrently -n \"client , server\" -c \"bgBlue , bgYellow\" \"npm start\" \"npm run server\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
+  }
+}
