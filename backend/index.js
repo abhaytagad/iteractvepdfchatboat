@@ -19,7 +19,8 @@ app.use(
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://iteractvepdfchatboat.vercel.app"
+  "https://iteractvepdfchatboat.vercel.app",
+  "https://iteractvepdfchatboat-t2ki.vercel.app"
 ];
 
 app.use((req, res, next) => {
