@@ -105,7 +105,9 @@ exports.allFiles = async (req,res)=>{
     try{
        
         const {email} = req.body;
+        
         const response = await File.find({email:email})
+        
 
          if (!response){
             res.status(400).json({

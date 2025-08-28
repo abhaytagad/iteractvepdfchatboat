@@ -5,16 +5,37 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 function SignupVerify() {
-  const { firstName, lastName, email, password, confirmPassword, otp, changeOtp } = useContext(APIcontext);
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    otp,
+    changeOtp,
+    changeToken, // ✅ added
+  } = useContext(APIcontext);
+
   const naviGate = useNavigate();
 
   async function clickHandler() {
     try {
-      await axios.post('https://pdfchatbot-7oim.onrender.com/api/signup', {
-        firstName, lastName, email, password, confirmPassword, otp
+      const res = await axios.post("https://pdfchatbot-7oim.onrender.com/api/signup", {
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        otp,
       });
-      toast.success("Sign up successfully");
-      naviGate('/dashboard');
+
+      // ✅ Backend should now send token in response
+      if (res.data?.token) {
+        changeToken(res.data.token); // Save token in context + localStorage
+      }
+
+      toast.success("Sign up successful");
+      naviGate("/dashboard");
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error);
@@ -31,7 +52,7 @@ function SignupVerify() {
           type="text"
           placeholder="Enter OTP"
           value={otp}
-          onChange={e => changeOtp(e.target.value)}
+          onChange={(e) => changeOtp(e.target.value)}
           className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full mb-4 transition"
         />
         <button

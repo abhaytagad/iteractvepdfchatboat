@@ -39,11 +39,24 @@ function PricingCom() {
     }
 
     try {
+      // ✅ Get token from localStorage
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Authentication required! Please login again.");
+        setLoading(false);
+        return;
+      }
+
+      // ✅ Authenticated request to create Razorpay order
       const response = await fetch("https://pdfchatbot-7oim.onrender.com/api/payment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // send JWT token
+        },
         body: JSON.stringify({ email }),
       });
+
       const data = await response.json();
       if (!data.id) throw new Error("Payment initialization failed");
 
@@ -56,13 +69,20 @@ function PricingCom() {
         image: "https://example.com/your_logo",
         order_id: data.id,
         handler: function (response) {
+          // ✅ Send token along with validation request
           axios
-            .post("https://pdfchatbot-7oim.onrender.com/paymentvalidate", {
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_signature: response.razorpay_signature,
-              email,
-            })
+            .post(
+              "https://pdfchatbot-7oim.onrender.com/api/paymentvalidate",
+              {
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_signature: response.razorpay_signature,
+                email,
+              },
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+            )
             .then(() => toast.success("Payment Successful!"))
             .catch(() => toast.error("Payment Failed"));
         },

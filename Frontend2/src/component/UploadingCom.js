@@ -8,22 +8,41 @@ import { toast } from "react-toastify";
 function UploadingCom({ fileurl, fileid, removeFileHandler }) {
   const { fileChangeHandler, fileidChangeHandler } = useContext(APIcontext);
   const navigate = useNavigate();
-    console.log(fileurl,fileid)
+
   async function trashHandler() {
     const confirmDelete = window.confirm("Are you sure you want to delete this file?");
     if (!confirmDelete) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("Please login again.");
+      navigate("/signin");
+      return;
+    }
+
     try {
-      await axios.post("https://pdfchatbot-7oim.onrender.com/api/deletefile", { fileid });
+      await axios.post(
+        "https://pdfchatbot-7oim.onrender.com/api/deletefile",
+        { fileid },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success("File deleted successfully");
-      removeFileHandler(fileid);
     } catch (error) {
-      toast.error("Could not delete file.");
+      if (error.response?.status === 401) {
+        toast.error("Session expired. Please login again.");
+        navigate("/signin");
+      } else {
+        toast.error("Could not delete file.");
+      }
       console.error(error);
     }
   }
 
   function messageHandler() {
-
     fileChangeHandler(fileurl);
     fileidChangeHandler(fileid);
     navigate("/chatting");
@@ -34,7 +53,7 @@ function UploadingCom({ fileurl, fileid, removeFileHandler }) {
       <div className="flex items-center gap-3">
         <i className="far fa-file-pdf text-2xl text-red-500"></i>
         <span className="text-blue-700 font-semibold truncate">
-          {fileurl ? fileurl.split('/').pop() : "Unknown file"}
+          {fileurl ? fileurl.split("/").pop() : "Unknown file"}
         </span>
       </div>
       <div className="flex gap-2">

@@ -6,18 +6,36 @@ import { useNavigate } from "react-router-dom";
 
 function VerifyotpPage() {
   const { email, password, otp, changeOtp } = useContext(APIcontext);
-  const naviGate = useNavigate();
+  const navigate = useNavigate();
 
   async function clickHandler() {
+    if (!otp) {
+      toast.error("Please enter the OTP");
+      return;
+    }
+
     try {
-      await axios.get('https://pdfchatbot-7oim.onrender.com/api/signin', {
-        params: { otp, email, password }
-      });
-      naviGate('/dashboard');
-      toast.success("Login successfully");
+      const res = await axios.get(
+        "https://pdfchatbot-7oim.onrender.com/api/signin",
+        { params: { otp, email, password } }
+      );
+
+      // 🔑 Backend should send token here
+      const { token } = res.data;
+      if (token) {
+        localStorage.setItem("token", token); // save token for future requests
+        toast.success("Login successful");
+        navigate("/dashboard");
+      } else {
+        toast.error("No token received. Please try again.");
+      }
     } catch (error) {
-      toast.error("Something went wrong??");
-      console.log(error);
+      if (error.response?.status === 401) {
+        toast.error("Invalid OTP or expired session");
+      } else {
+        toast.error("Something went wrong");
+      }
+      console.error(error);
     }
   }
 
@@ -31,7 +49,7 @@ function VerifyotpPage() {
           type="text"
           placeholder="Enter OTP"
           value={otp}
-          onChange={e => changeOtp(e.target.value)}
+          onChange={(e) => changeOtp(e.target.value)}
           className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full mb-4 transition"
         />
         <button

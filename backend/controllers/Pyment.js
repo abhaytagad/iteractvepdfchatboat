@@ -36,7 +36,7 @@ exports.paymentCon = async (req, res) => {
 exports.paymentValidator = async (req, res) => {
   try {
     const { email, razorpay_order_id, razorpay_signature, razorpay_payment_id } = req.body;
-
+    console.log(email,razorpay_order_id, razorpay_signature, razorpay_payment_id);
     const sha = crypto.createHmac("sha256", process.env.RAZORPAY_SECRETE);
     sha.update(`${razorpay_order_id}|${razorpay_payment_id}`);
     const digest = sha.digest("hex");

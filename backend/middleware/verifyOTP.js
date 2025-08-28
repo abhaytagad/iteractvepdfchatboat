@@ -6,7 +6,7 @@ async function verifyOTP(req, res, next) {
     const email = req.query.email;
     const otp = req.query.otp;
    
-    console.log(email,otp)
+    
     const user = await OTP.findOne({ email }).sort({ createdAt: -1 });
   
     if (!user || user.otp != otp  ) {

@@ -6,10 +6,13 @@ import { toast } from 'react-toastify';
 import Question from './Question.js';
 import React from 'react';
 import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 
 function Message() {
   const { fileid, email, query, queryChangeHandler, querie, queriesChangeHandler, answer, answerChangeHandler } = useContext(APIcontext);
   const [value, forceUpdate] = useReducer(x => x + 1, 0);
+  const navigate = useNavigate();
+
   useEffect(() => {}, [value]);
 
   function changeHandler(event) {
@@ -22,28 +25,52 @@ function Message() {
   };
 
   const { mutate } = useMutation(async (data) => {
-    const res = await fetch('https://pdfchatbot-7oim.onrender.com/api/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) {
-      toast.error("Something went wrong");
-      return;
-    }
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    let partialData = '';
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      let chunk = decoder.decode(value, { stream: true })
-        .replace(/<\/s>/g, '')
-        .replace(/([a-z])([A-Z])/g, '$1 $2')
-        .replace(/\s+/g, ' ');
-      partialData += chunk;
-      answerChangeHandler(partialData);
-      forceUpdate();
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login again!");
+        navigate("/signin");
+        return;
+      }
+
+      const res = await fetch('https://pdfchatbot-7oim.onrender.com/api/query', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` 
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.status === 401) {
+        toast.error("Session expired. Please login again.");
+        localStorage.removeItem("token");
+        navigate("/signin");
+        return;
+      }
+
+      if (!res.ok) {
+        toast.error("Something went wrong");
+        return;
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let partialData = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        let chunk = decoder.decode(value, { stream: true })
+          .replace(/<\/s>/g, '')
+          .replace(/([a-z])([A-Z])/g, '$1 $2')
+          .replace(/\s+/g, ' ');
+        partialData += chunk;
+        answerChangeHandler(partialData);
+        forceUpdate();
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to send query");
     }
   });
 
@@ -85,6 +112,7 @@ function Message() {
           type="text"
           value={query}
           onChange={changeHandler}
+          enterKeyHint={clickHandler}
           placeholder="Type your question here..."
           className="border-gray-300 rounded px-4 py-2 flex-1 shadow"
         />
@@ -94,12 +122,7 @@ function Message() {
         >
           <FontAwesomeIcon icon={faLocationArrow} /> Send
         </button>
-        <button
-          onClick={startListening}
-          className="bg-green-400 px-4 py-2 ml-2 rounded text-white hover:bg-green-500 transition"
-        >
-          <i className="fas fa-microphone-alt"></i> Voice
-        </button>
+        
       </div>
       <div className="mt-6">
         <Question />

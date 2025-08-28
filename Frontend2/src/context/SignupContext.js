@@ -9,33 +9,38 @@ function SignupContext({ children }) {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    // const [fileurl, setFileUrl] = useState("");
     const [query, setQuery] = useState("");
     const [fileid, setFileid] = useState("");
     const [querie, setQuerie] = useState([]);
     const [array, setArray] = useState([null]);
     const [answer, setAnswer] = useState("");
-    const [fileurl, setFileChange] = useState('');
+    const [fileurl, setFileChange] = useState("");
 
+    // 🔑 New: JWT token
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         const storedEmail = localStorage.getItem("email");
-        if (storedEmail !== null && storedEmail !== "undefined") {
+        if (storedEmail && storedEmail !== "undefined") {
             setEmail(JSON.parse(storedEmail));
         }
-    
+
         const storedFileUrl = localStorage.getItem("fileurl");
-        if (storedFileUrl !== null && storedFileUrl !== "undefined") {
+        if (storedFileUrl && storedFileUrl !== "undefined") {
             setFileChange(JSON.parse(storedFileUrl));
         }
-    
+
         const storedFileId = localStorage.getItem("fileid");
-        if (storedFileId !== null && storedFileId !== "undefined") {
+        if (storedFileId && storedFileId !== "undefined") {
             setFileid(JSON.parse(storedFileId));
         }
+
+        // 🔑 Load token if exists
+        const storedToken = localStorage.getItem("token");
+        if (storedToken && storedToken !== "undefined") {
+            setToken(JSON.parse(storedToken));
+        }
     }, []);
-    
-    
 
     // State Update Handlers
     function changeEmail(val) {
@@ -78,7 +83,7 @@ function SignupContext({ children }) {
     }
 
     function queriesChangeHandler(val) {
-        setQuerie((prev) => [...prev, val]); // Creates a new array for state update
+        setQuerie((prev) => [...prev, val]);
     }
 
     function answerChangeHandler(val) {
@@ -87,6 +92,12 @@ function SignupContext({ children }) {
 
     function arrayChangeHandler(val) {
         setArray(val);
+    }
+
+    // 🔑 New: Token handler
+    function changeToken(val) {
+        setToken(val);
+        localStorage.setItem("token", JSON.stringify(val));
     }
 
     // Context Value
@@ -103,6 +114,7 @@ function SignupContext({ children }) {
         querie,
         array,
         answer,
+        token,
         changePassword,
         changeOtp,
         changeEmail,
@@ -115,6 +127,7 @@ function SignupContext({ children }) {
         queriesChangeHandler,
         answerChangeHandler,
         arrayChangeHandler,
+        changeToken, // 🔑 Exposed to components
     };
 
     return <APIcontext.Provider value={value}>{children}</APIcontext.Provider>;

@@ -1,10 +1,8 @@
 import React, { useContext, useState } from "react";
 import { APIcontext } from "../context/SignupContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
-import { NavLink } from "react-router-dom";
-
 
 function SignUpPage() {
   const {
@@ -16,6 +14,7 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       toast.error("All fields are required!");
       return;
@@ -24,13 +23,22 @@ function SignUpPage() {
       toast.error("Passwords do not match!");
       return;
     }
+
     setLoading(true);
     try {
-      await axios.post('https://pdfchatbot-7oim.onrender.com/api/generatotp', { email });
+      // Step 1: Send OTP
+      await axios.post("https://pdfchatbot-7oim.onrender.com/api/generatotp", { email });
       toast.success("OTP sent successfully!");
-      navigate('/signup/verifyotp');
+      
+      // Navigate to OTP verification page
+      navigate("/signup/verifyotp");
+
+      // ✅ NOTE: After OTP verification -> backend will return JWT
+      // In VerifyOtp component you must do:
+      // localStorage.setItem("token", res.data.token);
+      // navigate("/dashboard"); 
     } catch (error) {
-      toast.error("Something went wrong!");
+      toast.error(error.response?.data?.message || "Something went wrong!");
       console.error(error);
     } finally {
       setLoading(false);
@@ -51,7 +59,7 @@ function SignUpPage() {
             type="text"
             placeholder="First Name"
             value={firstName}
-            onChange={e => changeFirstName(e.target.value)}
+            onChange={(e) => changeFirstName(e.target.value)}
             className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full transition"
             disabled={loading}
           />
@@ -59,7 +67,7 @@ function SignUpPage() {
             type="text"
             placeholder="Last Name"
             value={lastName}
-            onChange={e => changeLastName(e.target.value)}
+            onChange={(e) => changeLastName(e.target.value)}
             className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full transition"
             disabled={loading}
           />
@@ -67,7 +75,7 @@ function SignUpPage() {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={e => changeEmail(e.target.value)}
+            onChange={(e) => changeEmail(e.target.value)}
             className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full transition"
             disabled={loading}
           />
@@ -75,7 +83,7 @@ function SignUpPage() {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={e => changePassword(e.target.value)}
+            onChange={(e) => changePassword(e.target.value)}
             className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full transition"
             disabled={loading}
           />
@@ -83,14 +91,16 @@ function SignUpPage() {
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={e => changeConfirmPassword(e.target.value)}
+            onChange={(e) => changeConfirmPassword(e.target.value)}
             className="border-b border-gray-300 focus:outline-none focus:border-blue-500 py-2 w-full transition"
             disabled={loading}
           />
         </div>
         <button
           type="submit"
-          className={`w-full py-2 rounded bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition mt-6 ${loading ? "opacity-75 cursor-not-allowed" : ""}`}
+          className={`w-full py-2 rounded bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 transition mt-6 ${
+            loading ? "opacity-75 cursor-not-allowed" : ""
+          }`}
           disabled={loading}
         >
           {loading ? "Sending OTP..." : "Sign Up"}

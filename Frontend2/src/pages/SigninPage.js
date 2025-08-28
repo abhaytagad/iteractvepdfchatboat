@@ -5,7 +5,7 @@ import { APIcontext } from "../context/SignupContext";
 import { toast } from "react-toastify";
 
 function SigninPage() {
-  const { changeEmail, changePassword, email, password } = useContext(APIcontext);
+  const { changeEmail, changePassword, changeToken, email, password } = useContext(APIcontext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -16,14 +16,24 @@ function SigninPage() {
     }
     setLoading(true);
     try {
-      const response = await axios.get("https://pdfchatbot-7oim.onrender.com/api/signin", {
-        params: { email, password },
+      const response = await axios.post("https://pdfchatbot-7oim.onrender.com/api/signin", {
+        email,
+        password,
       });
+
+      if (response.data?.token) {
+        // Save token in context + localStorage
+        changeToken(response.data.token);
+        localStorage.setItem("jwtToken", response.data.token);
+
+        // 🔑 Attach token to all axios future requests
+        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+      }
+
       toast.success("Login successful!");
       navigate("/dashboard");
-      console.log(response);
     } catch (error) {
-      toast.error("Invalid credentials or something went wrong!");
+      toast.error(error?.response?.data?.message || "Invalid credentials!");
       console.error(error);
     } finally {
       setLoading(false);
