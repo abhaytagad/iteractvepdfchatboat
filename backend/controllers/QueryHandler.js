@@ -45,7 +45,7 @@ exports.queryHandler = async (req, res) => {
 
     // Setup Gemini client
     const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const chatPrompt = `
 You are a chatbot that ONLY answers based on the given context.
